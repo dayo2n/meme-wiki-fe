@@ -10,6 +10,7 @@ import QuizWrongIcon from './QuizWrongIcon';
 import KakaoIcon from './KakaoIcon';
 import LinkCopyIcon from './LinkCopyIcon';
 import MoreInfo from './MoreInfo';
+import DonwloadIcon from './DonwloadIcon';
 
 export {
   ShareIcon,
@@ -24,4 +25,5 @@ export {
   MoreInfo,
   KakaoIcon,
   LinkCopyIcon,
+  DonwloadIcon,
 };

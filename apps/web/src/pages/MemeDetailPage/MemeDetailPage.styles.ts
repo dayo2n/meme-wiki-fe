@@ -24,7 +24,11 @@ const Image = styled.img`
   border-radius: 12px;
 `;
 
-const ButtonContainer = styled.div`
+interface ButtonContainerProps {
+  isWebview: boolean;
+}
+
+const ButtonContainer = styled.div<ButtonContainerProps>`
   position: fixed;
   max-width: ${({ theme }) => theme.breakpoints.mobile};
   left: 50%;
@@ -34,33 +38,60 @@ const ButtonContainer = styled.div`
   padding: 12px 14px 40px;
   background-color: ${({ theme }) => theme.palette.gray['gray-10']};
   border-top: 1px solid ${({ theme }) => theme.palette.gray['gray-9']};
-  display: flex;
+  display: grid;
+  grid-template-columns: ${({ isWebview }) =>
+    isWebview ? '1fr 2fr' : '1fr 1fr'};
   gap: 8px;
   z-index: 10;
 `;
 
 interface ActionButtonProps {
   isPrimary?: boolean;
+  isWebview?: boolean;
+  variant?: 'share' | 'download';
 }
 
 const ActionButton = styled.button<ActionButtonProps>`
-  flex: ${({ isPrimary }) => (isPrimary ? 1 : 2)};
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background-color: ${({ theme, isPrimary }) =>
-    isPrimary ? theme.palette.gray['gray-9'] : theme.palette.main.pink[50]};
+  gap: 6px;
+  background-color: ${({ theme, isPrimary, variant }) => {
+    if (!variant) {
+      return isPrimary
+        ? theme.palette.gray['gray-9']
+        : theme.palette.main.pink[50];
+    }
+    return variant === 'share'
+      ? theme.palette.main.pink[95]
+      : theme.palette.main.pink[50];
+  }};
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  padding: 12px;
+  padding: 14px;
   ${({ theme }) => theme.typography.title.subhead2};
-  color: ${({ theme }) => theme.palette.common.white};
+  color: ${({ theme, variant }) => {
+    if (!variant) {
+      return theme.palette.common.white;
+    }
+    return variant === 'share'
+      ? theme.palette.gray['gray-9']
+      : theme.palette.common.white;
+  }};
 
   &:hover {
-    background-color: ${({ theme, isPrimary }) =>
-      isPrimary ? theme.palette.gray['gray-8'] : theme.palette.main.pink[40]};
+    background-color: ${({ theme, isPrimary, variant }) => {
+      if (!variant) {
+        return isPrimary
+          ? theme.palette.gray['gray-8']
+          : theme.palette.main.pink[40];
+      }
+      return variant === 'share'
+        ? theme.palette.main.pink[90]
+        : theme.palette.main.pink[40];
+    }};
   }
 `;
 

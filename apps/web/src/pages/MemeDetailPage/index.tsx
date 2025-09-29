@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout';
 import {
+  DonwloadIcon,
   MemeDesignPenIcon,
   ShareIcon,
   SymbolThreeIcon,
@@ -100,38 +101,62 @@ const MemeDetailPage = () => {
               <S.SectionText>{memeDetail?.success.origin}</S.SectionText>
             </S.ContentContainer>
           </S.Container>
-          <S.ButtonContainer>
-            <S.ActionButton
-              isPrimary
-              onClick={() => {
-                // 밈 꾸미기 mutation
-                customMeme({ id: memeId! });
-
-                if (isWebview) {
-                  nativeBridge.customMeme({
-                    title: memeDetail?.success.title ?? '',
-                    image: memeDetail?.success.imgUrl ?? '',
-                  });
-                } else {
-                  moveToStore();
-                }
-              }}
-            >
-              <MemeDesignPenIcon />
-              <span>밈 꾸미기</span>
-            </S.ActionButton>
-            <S.ActionButton
-              onClick={() => {
-                // 밈 공유하기 mutation
-                shareMeme({ id: memeId! });
-
-                // 공유 시트 열기
-                setShareSheetOpen(true);
-              }}
-            >
-              <ShareIcon />
-              <span>공유하기</span>
-            </S.ActionButton>
+          <S.ButtonContainer isWebview={isWebview}>
+            {isWebview ? (
+              <>
+                <S.ActionButton
+                  isPrimary
+                  isWebview={isWebview}
+                  onClick={() => {
+                    // 밈 꾸미기 mutation
+                    customMeme({ id: memeId! });
+                    nativeBridge.customMeme({
+                      title: memeDetail?.success.title ?? '',
+                      image: memeDetail?.success.imgUrl ?? '',
+                    });
+                  }}
+                >
+                  <MemeDesignPenIcon />
+                  <span>밈 꾸미기</span>
+                </S.ActionButton>
+                <S.ActionButton
+                  isWebview={isWebview}
+                  onClick={() => {
+                    // 밈 공유하기 mutation
+                    shareMeme({ id: memeId! });
+                    // 공유 시트 열기
+                    setShareSheetOpen(true);
+                  }}
+                >
+                  <ShareIcon />
+                  <span>공유하기</span>
+                </S.ActionButton>
+              </>
+            ) : (
+              <>
+                <S.ActionButton
+                  variant="share"
+                  onClick={() => {
+                    // 밈 공유하기 mutation
+                    shareMeme({ id: memeId! });
+                    // 공유 시트 열기
+                    setShareSheetOpen(true);
+                  }}
+                >
+                  <ShareIcon />
+                  <span>공유하기</span>
+                </S.ActionButton>
+                <S.ActionButton
+                  variant="download"
+                  onClick={() => {
+                    moveToStore();
+                  }}
+                >
+                  <DonwloadIcon />
+                  <span>앱 다운로드</span>
+                </S.ActionButton>
+              </>
+            )}
           </S.ButtonContainer>
         </>
       )}
