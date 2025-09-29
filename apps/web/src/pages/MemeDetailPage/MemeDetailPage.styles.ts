@@ -82,16 +82,7 @@ const ActionButton = styled.button<ActionButtonProps>`
   }};
 
   &:hover {
-    background-color: ${({ theme, isPrimary, variant }) => {
-      if (!variant) {
-        return isPrimary
-          ? theme.palette.gray['gray-8']
-          : theme.palette.main.pink[40];
-      }
-      return variant === 'share'
-        ? theme.palette.main.pink[90]
-        : theme.palette.main.pink[40];
-    }};
+    opacity: 0.9;
   }
 `;
 
