@@ -3,7 +3,9 @@ export const config = {
 };
 
 const CACHE_REVALIDATE_TIME = 3600; // 1시간
-const API_ENDPOINT = 'https://api.meme-wiki.net/api/memes';
+// 미들웨어는 axios 인스턴스를 쓰지 않으므로 백엔드 주소를 직접 읽는다.
+const API_BASE_URL = process.env.VITE_BACKEND_URL ?? 'https://api.memewiki.app';
+const API_ENDPOINT = `${API_BASE_URL}/api/memes`;
 
 // 메타 데이터 타입 정의
 interface MemeMetadata {

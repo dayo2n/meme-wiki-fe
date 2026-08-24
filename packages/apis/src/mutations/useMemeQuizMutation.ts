@@ -14,7 +14,7 @@ export const useMemeQuizMutation = () => {
     mutationFn: (data: MemeQuizRequest) => {
       return fetchApiData<MemeQuizResponse, MemeQuizRequest>({
         method: 'POST',
-        url: 'https://api.meme-wiki.net/api/quizzes',
+        url: '/api/quizzes',
         data,
       });
     },
