@@ -10,7 +10,7 @@ export const useMemeCustomMutation = () => {
     mutationFn: (data: MemeCustomRequest) => {
       return fetchApiData<void, MemeCustomRequest>({
         method: 'POST',
-        url: `https://api.meme-wiki.net/api/memes/${data.id}/custom`,
+        url: `/api/memes/${data.id}/custom`,
         data,
       });
     },

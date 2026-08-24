@@ -10,7 +10,7 @@ export const useShareMemeMutation = () => {
     mutationFn: (data: ShareMemeRequest) => {
       return fetchApiData<void, ShareMemeRequest>({
         method: 'POST',
-        url: `https://api.meme-wiki.net/api/memes/${data.id}/share`,
+        url: `/api/memes/${data.id}/share`,
         data,
       });
     },
