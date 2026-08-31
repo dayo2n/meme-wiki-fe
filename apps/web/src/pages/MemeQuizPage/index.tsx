@@ -20,7 +20,12 @@ const preloadImage = (src: string): Promise<void> => {
 const MemeQuizPage = () => {
   const [quizStatus, setQuizStatus] = useState<QuizStatus>('NOT_STARTED');
   const [isImagesLoading, setIsImagesLoading] = useState(true);
-  const { data: quizData } = useMemeQuizQuery();
+  const { data: quizData, isLoading } = useMemeQuizQuery();
+
+  // 퀴즈가 없는데 시작하면 렌더링할 스텝이 없어 빈 화면에 갇힌다.
+  // 로딩 중에는 '준비 중'이 잠깐 스치지 않도록 판단을 미룬다.
+  const hasQuiz = (quizData?.success?.length ?? 0) > 0;
+  const isEmpty = !isLoading && !hasQuiz;
 
   // 이미지 프리로딩
   useEffect(() => {
@@ -81,12 +86,18 @@ const MemeQuizPage = () => {
   return (
     <Layout>
       {quizStatus === 'NOT_STARTED' && (
-        <MemeQuizStart onNext={() => setQuizStatus('IN_PROGRESS')} />
+        <MemeQuizStart
+          isEmpty={isEmpty}
+          onNext={() => {
+            if (!hasQuiz) return;
+            setQuizStatus('IN_PROGRESS');
+          }}
+        />
       )}
-      {quizStatus === 'IN_PROGRESS' && quizData?.success && (
+      {quizStatus === 'IN_PROGRESS' && hasQuiz && (
         <Funnel>
           {[
-            ...quizData.success.map((quiz, index) => (
+            ...(quizData?.success ?? []).map((quiz, index) => (
               <Funnel.Step key={`quiz${index + 1}`} step={`quiz${index + 1}`}>
                 <QuizStep
                   quiz={quiz}
